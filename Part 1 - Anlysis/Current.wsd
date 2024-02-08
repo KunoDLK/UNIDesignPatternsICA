@@ -1,0 +1,115 @@
+@startuml
+
+class MainClass {
+    + static readonly StarterCards: Card[]
+    + GetStarterDeck(): List<Card>
+    + GetPrompt(prompt: string, validResponse: string[]): string
+    + Main(args: string[]): void
+}
+
+class Console {
+    + WriteLine(string value)
+    + Write(string value)
+    + ReadLine(): string
+    + Clear()
+    {static} +ForegroundColor: ConsoleColor
+    {static} +BackgroundColor: ConsoleColor
+}
+
+class Player {
+    - const MaxMana: int
+    - readonly name: string
+    - manaAvailable: int
+    - manaTicker: int
+    - health: int
+    - readonly deck: Deck
+    - readonly hand: Hand
+    - readonly inPlay: InPlay
+    - readonly graveyard: Graveyard
+    + Player(name: string, deck: Deck)
+    + Name: string
+    + ManaAvailable: int
+    + Health: int
+    + Deck: Deck
+    + Hand: Hand
+    + InPlay: InPlay
+    + Graveyard: Graveyard
+    + NewGame(): void
+    + AddMana(): void
+    + UseMana(amount: int): void
+    + DrawCard(): void
+    + Damage(amount: int): bool
+    + ToString(): string
+}
+
+class InPlay {
+    - readonly cards: List<Card>
+    + Cards: List<Card>
+    + GetCard(index: int): Card
+    + Add(card: Card): void
+    + Remove(card: Card): void
+    + RemoveAll(cards: List<Card>): void
+    + Count: int
+}
+
+class Hand {
+    - readonly cards: List<Card>
+    + Cards: List<Card>
+    + Add(card: Card): void
+    + Remove(card: Card): void
+    + RemoveAll(cards: List<Card>): void
+    + Count: int
+    + Sort(): void
+    + ToString(): string
+}
+class Deck {
+    - readonly cards: List<Card>
+    + Count: int
+    + Deck(cards: List<Card>)
+    + Draw(): Card
+    + Shuffle(): void
+}
+class Graveyard {
+    - readonly cards: List<Card>
+    + Count: int
+    + Graveyard()
+    + Add(card: Card): void
+}
+
+class Card {
+    - readonly id: string
+    - readonly name: string
+    - readonly manaCost: int
+    - readonly attack: int
+    - health: int
+    + Card(id: string, name: string, manaCost: int, attack: int, health: int)
+    + Card(card: Card)
+    + Id: string
+    + Name: string
+    + ManaCost: int
+    + Attack: int
+    + Health: int
+    + Damage(amount: int): void
+    + ToString(): string
+    + CompareTo(other: Card): int
+}
+
+interface IComparable {
+    + CompareTo(other: Card): int
+}
+
+MainClass "1" *-- "many" Player : Creates and drivers >
+MainClass "1" o-- "many" Card : Creates posible cards for a players deck >
+MainClass "1" o-- "many" Deck : Creates a deck for each player >
+MainClass "1" *-- "1" Console : Reads user input <
+MainClass "1" *-- "1" Console : Writes output >
+Player "1" *-- "1" Deck : Has a >
+Player "1" *-- "1" Hand : Has a >
+Player "1" *-- "1" InPlay : Has a >
+Player "1" *-- "1" Graveyard : Has a >
+Deck "1" *-- "Many" Card : Contains >
+Hand "1" *-- "Many" Card : Contains >
+InPlay "1" *-- "Many" Card : Contains >
+Graveyard "1" *-- "Many" Card : Contains >
+Card .up.|> IComparable
+@enduml
