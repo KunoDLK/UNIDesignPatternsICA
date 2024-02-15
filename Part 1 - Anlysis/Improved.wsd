@@ -1,0 +1,88 @@
+@startuml
+
+class Game {
+
+}
+
+class Player {
+    - readonly name: string
+    - readonly deck: Deck
+    + Player(name: string, deck: Deck)
+    + Name: string
+    + Deck: Deck
+}
+
+class Deck {
+    - allCards: List<Card>
+    + Stacks: List<Stack>
+    + GetStack(string stackName): stack 
+    + AddStack(string Name): void
+}
+
+class Stack {
+    - stackCards: List<Card>
+    + StackSize: int
+    + StackName: string
+    + AddCard(Card: card): void
+    + AddCard(IEnumarble<Card>: cards): void
+    + GetNextCard(): Card
+    + Shuffle(): void
+    + Sort(): void
+}
+
+class CardFactory
+{
+    - ConstuctedCard: Card
+    + NewCard(): void
+    + AddAttackDecorator(): void
+    + AddDefenseDecorator(): void
+    + AddSpecialAbilityDecorator(): void
+    + GetConstructedCard(): Card
+}
+
+interface ICard {
+    + Id: guid
+    + Name: string
+    + GetUseCost(Deck: gameState): int
+    + GetUseAttack(Deck: gameState): int
+}
+
+abstract CardDecorator{
+    + abstract GetUseCost(Deck: gameState): int
+    + abstract GetUseAttack(Deck: gameState): int
+}
+
+class StandardCard {
+    + GetUseCost(Deck: gameState): int
+    + GetUseAttack(Deck: gameState): int
+}
+
+class AttackDecorator extends CardDecorator {
+    + abstract GetUseCost(Deck: gameState): int
+    + abstract GetUseAttack(Deck: gameState): int
+}
+
+class DefenseDecorator extends CardDecorator {
+    + abstract GetUseCost(Deck: gameState): int
+    + abstract GetUseAttack(Deck: gameState): int
+}
+
+class SpecialAbilityDecorator extends CardDecorator {
+    + abstract GetUseCost(Deck: gameState): int
+    + abstract GetUseAttack(Deck: gameState): int
+}
+
+Game "1" *-- "many" Player : Has many >
+Player "1" *-- "1" Deck : Has a >
+Deck "1" *-- "many" Stack : Has many >
+Stack "1" *-- "Many" ICard : Contains >
+Deck "1" *-- "Many" ICard : Contains >
+StandardCard .|> ICard
+CardDecorator .|> ICard
+CardFactory "1" *-- "Many" StandardCard : Creates >
+CardFactory "1" *-- "Many" AttackDecorator : Creates >
+CardFactory "1" *-- "Many" DefenseDecorator : Creates >
+CardFactory "1" *-- "Many" SpecialAbilityDecorator : Creates >
+
+
+@enduml
