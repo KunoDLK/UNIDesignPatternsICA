@@ -1,7 +1,6 @@
 # Current Implementation:
 
 ## UML Diagram:
-
 ```plantuml
 @startuml
 

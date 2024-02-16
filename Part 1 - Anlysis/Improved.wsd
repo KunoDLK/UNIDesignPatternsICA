@@ -1,7 +1,25 @@
 @startuml
 
-class Game {
+class Main {
+    + Main(): void
+}
 
+interface IGame {
+    
+}
+
+class Console {
+    + WriteLine(string value)
+    + Write(string value)
+    + ReadLine(): string
+    + Clear()
+    {static} +ForegroundColor: ConsoleColor
+    {static} +BackgroundColor: ConsoleColor
+}
+
+interface IDisplay {
+    + DisplayPlayer(): void
+    + GetCardChoice(Stack: choices): Card
 }
 
 class Player {
@@ -34,55 +52,82 @@ class CardFactory
 {
     - ConstuctedCard: Card
     + NewCard(): void
-    + AddAttackDecorator(): void
-    + AddDefenseDecorator(): void
-    + AddSpecialAbilityDecorator(): void
+    + AddAttackDecorator(double: offset, Action: condition (Optional)): void
+    + AddAttackDecorator(double: multiplyer, Action: condition (Optional)): void
+    + AddDefenseDecorator(double: offset, Action: condition (Optional)): void
+    + AddDefenseDecorator(double: multiplyer, Action: condition (Optional)): void
+    + AddTrapAbilityDecorator(Action: Condition, Action: TrapAction): void
     + GetConstructedCard(): Card
 }
 
 interface ICard {
     + Id: guid
     + Name: string
-    + GetUseCost(Deck: gameState): int
-    + GetUseAttack(Deck: gameState): int
+    + Description: string
+    + GetUseCost(): int
+    + GetUseAttack(): int
+    + GetDefense(): int
 }
 
-abstract CardDecorator{
-    + abstract GetUseCost(Deck: gameState): int
-    + abstract GetUseAttack(Deck: gameState): int
-}
-
-class StandardCard {
-    + GetUseCost(Deck: gameState): int
-    + GetUseAttack(Deck: gameState): int
+abstract CardDecorator {
+    + Id: guid
+    + Name: string
+    + DecorationName: String
+    + Multaplyer: double
+    + Offset: double
+    + Condition: Action
+    + CardDecorator(double multiplyer, double: offset)
+    + AddCondition(Action: Condition): void 
+    + Virtual GetUseCost(): int
+    + Virtual GetUseAttack(): int
 }
 
 class AttackDecorator extends CardDecorator {
-    + abstract GetUseCost(Deck: gameState): int
-    + abstract GetUseAttack(Deck: gameState): int
+    + GetUseAttack(): int
 }
 
-class DefenseDecorator extends CardDecorator {
-    + abstract GetUseCost(Deck: gameState): int
-    + abstract GetUseAttack(Deck: gameState): int
+class CostDecorator extends CardDecorator {
+    + GetUseCost(): int
 }
 
-class SpecialAbilityDecorator extends CardDecorator {
-    + abstract GetUseCost(Deck: gameState): int
-    + abstract GetUseAttack(Deck: gameState): int
+class TrapAbilityDecorator extends CardDecorator {
+    + TrapAbility: Action
+    + GetUseCost(): int
+    + GetUseAttack(): int
+    + GetDefense(): int
 }
 
-Game "1" *-- "many" Player : Has many >
+class StandardCard {
+    + Id: guid
+    + Name: string
+    + StandardCard(double: UseCost, double: AttackDamage)
+    + GetUseCost(): int
+    + GetUseAttack(): int
+    + GetDefense(): int
+}
+
+
+Main *-- StandardGame: Creates
+Main *-- ConsoleDisplay: Creates
+ConsoleDisplay *-- Console
+IGame *-- IDisplay
+
+ConsoleDisplay .|> IDisplay
+StandardGame .|> IGame
+
+IGame "1" *-- "many" Player : Has many >
+
 Player "1" *-- "1" Deck : Has a >
-Deck "1" *-- "many" Stack : Has many >
-Stack "1" *-- "Many" ICard : Contains >
-Deck "1" *-- "Many" ICard : Contains >
+Deck "1" *-- "Many" Stack : Contains many >
+
+Deck "1" *-- "Many" ICard : Contains many >
+Stack "1" *-- "Many" ICard : Contains references to  >
+
 StandardCard .|> ICard
 CardDecorator .|> ICard
 CardFactory "1" *-- "Many" StandardCard : Creates >
 CardFactory "1" *-- "Many" AttackDecorator : Creates >
-CardFactory "1" *-- "Many" DefenseDecorator : Creates >
-CardFactory "1" *-- "Many" SpecialAbilityDecorator : Creates >
-
+CardFactory "1" *-- "Many" CostDecorator : Creates >
+CardFactory "1" *-- "Many" TrapAbilityDecorator : Creates >
 
 @enduml
