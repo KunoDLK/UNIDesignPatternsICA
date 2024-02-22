@@ -4,10 +4,6 @@ class Main {
     + Main(): void
 }
 
-interface IGame {
-    
-}
-
 class Console {
     + WriteLine(string value)
     + Write(string value)
@@ -17,14 +13,36 @@ class Console {
     {static} +BackgroundColor: ConsoleColor
 }
 
-interface IDisplay {
-    + DisplayPlayer(): void
-    + GetCardChoice(Stack: choices): Card
+class ConsoleDisplay extends Display {
+
+}
+
+abstract Display {
+    + Display(Game game)
+    + DisplayPlayer(Player: player)
+    + GetCardChoice(List<ICards>: choices): ICard
+}
+
+abstract DeckCreator
+{
+    
+}
+
+class StandardGame extends Game{
+
+}
+
+abstract Game {
+    - abstract PlayerLimmit: int
+    - Players: List<Player>
+    + Game(Display: display)
+    + AddPlayer(Player: player)
+    + StartGame()
 }
 
 class Player {
-    - readonly name: string
-    - readonly deck: Deck
+    - name: string
+    - deck: Deck
     + Player(name: string, deck: Deck)
     + Name: string
     + Deck: Deck
@@ -34,29 +52,29 @@ class Deck {
     - allCards: List<Card>
     + Stacks: List<Stack>
     + GetStack(string stackName): stack 
-    + AddStack(string Name): void
+    + AddStack(string Name)
 }
 
 class Stack {
     - stackCards: List<Card>
     + StackSize: int
     + StackName: string
-    + AddCard(Card: card): void
-    + AddCard(IEnumarble<Card>: cards): void
+    + AddCard(Card: card)
+    + AddCard(IEnumarble<Card>: cards)
     + GetNextCard(): Card
-    + Shuffle(): void
-    + Sort(): void
+    + Shuffle()
+    + Sort()
 }
 
 class CardFactory
 {
     - ConstuctedCard: Card
-    + NewCard(): void
-    + AddAttackDecorator(double: offset, Action: condition (Optional)): void
-    + AddAttackDecorator(double: multiplyer, Action: condition (Optional)): void
-    + AddDefenseDecorator(double: offset, Action: condition (Optional)): void
-    + AddDefenseDecorator(double: multiplyer, Action: condition (Optional)): void
-    + AddTrapAbilityDecorator(Action: Condition, Action: TrapAction): void
+    + NewCard()
+    + AddAttackDecorator(double: offset, Action: condition (Optional))
+    + AddAttackDecorator(double: multiplyer, Action: condition (Optional))
+    + AddDefenseDecorator(double: offset, Action: condition (Optional))
+    + AddDefenseDecorator(double: multiplyer, Action: condition (Optional))
+    + AddTrapAbilityDecorator(Action: Condition, Action: TrapAction)
     + GetConstructedCard(): Card
 }
 
@@ -77,7 +95,7 @@ abstract CardDecorator {
     + Offset: double
     + Condition: Action
     + CardDecorator(double multiplyer, double: offset)
-    + AddCondition(Action: Condition): void 
+    + AddCondition(Action: Condition)
     + Virtual GetUseCost(): int
     + Virtual GetUseAttack(): int
 }
@@ -107,15 +125,11 @@ class StandardCard {
 }
 
 
-Main *-- StandardGame: Creates
-Main *-- ConsoleDisplay: Creates
+Main o-- StandardGame: Creates
+Main o-- ConsoleDisplay: Creates
 ConsoleDisplay *-- Console
-IGame *-- IDisplay
-
-ConsoleDisplay .|> IDisplay
-StandardGame .|> IGame
-
-IGame "1" *-- "many" Player : Has many >
+Game *-- Display
+Game "1" *-- "many" Player : Has many >
 
 Player "1" *-- "1" Deck : Has a >
 Deck "1" *-- "Many" Stack : Contains many >
