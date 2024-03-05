@@ -1,0 +1,50 @@
+@startuml
+
+
+class Player {
+    + name: string
+    + deck: Deck
+    + Player(name: string, deck: Deck)
+    + Name: string
+    + Deck: Deck
+}
+
+class CardFactory
+{
+    - ConstuctedCard: Card
+    + NewCard()
+    + AddAttackDecorator(double: offset, Action: condition (Optional))
+    + AddAttackDecorator(double: multiplyer, Action: condition (Optional))
+    + AddDefenseDecorator(double: offset, Action: condition (Optional))
+    + AddDefenseDecorator(double: multiplyer, Action: condition (Optional))
+    + AddTrapAbilityDecorator(Action: Condition, Action: TrapAction)
+    + GetConstructedCard(): Card
+}
+
+Class DeckCreator {
+    + AddStack(String Name): Stack
+    + AddSortableStack(String Name): Stack
+    + AddShufflableStack(String Name): Stack
+}
+
+abstract Display {
+    + Display(Game game)
+    + abstract DisplayPlayer(Player: player)
+    + abstract GetCardChoice(List<ICards>: choices): ICard
+}
+abstract Game {
+    - abstract PlayerLimmit: int
+    - Players: List<Player>
+    + Game(Display: display)
+    + AddPlayer(Player: player)
+    + StartGame()
+    + abstract GameLoop()
+    + abstract PlayerChoice()
+}
+
+Game *-down- Display
+Game *-down- DeckCreator
+Game *-down- Player
+Game *-down- CardFactory
+
+@enduml

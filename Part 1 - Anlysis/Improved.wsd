@@ -2,6 +2,7 @@
 
 class Main {
     + Main(): void
+    + SelectRunMode()
 }
 
 class Console {
@@ -14,22 +15,20 @@ class Console {
 }
 
 class ConsoleDisplay extends Display {
-
-}
-
-abstract Display {
-    + Display(Game game)
     + DisplayPlayer(Player: player)
     + GetCardChoice(List<ICards>: choices): ICard
 }
 
-abstract DeckCreator
-{
-    
+abstract Display {
+    + Display(Game game)
+    + abstract DisplayPlayer(Player: player)
+    + abstract GetCardChoice(List<ICards>: choices): ICard
 }
 
-class StandardGame extends Game{
 
+class StandardGame extends Game{
+    + GameLoop()
+    + PlayerChoice()
 }
 
 abstract Game {
@@ -38,32 +37,40 @@ abstract Game {
     + Game(Display: display)
     + AddPlayer(Player: player)
     + StartGame()
+    + abstract GameLoop()
+    + abstract PlayerChoice()
 }
 
 class Player {
-    - name: string
-    - deck: Deck
+    + name: string
+    + deck: Deck
     + Player(name: string, deck: Deck)
     + Name: string
     + Deck: Deck
 }
 
 class Deck {
-    - allCards: List<Card>
+    + allCards: List<Card>
     + Stacks: List<Stack>
-    + GetStack(string stackName): stack 
+    + GetStack(string stackName): stack
     + AddStack(string Name)
 }
 
 class Stack {
-    - stackCards: List<Card>
+    + stackCards: List<Card>
     + StackSize: int
     + StackName: string
     + AddCard(Card: card)
     + AddCard(IEnumarble<Card>: cards)
     + GetNextCard(): Card
-    + Shuffle()
+}
+
+class SortableStack {
     + Sort()
+}
+
+class ShuffleableStack {
+    + Shuffle()
 }
 
 class CardFactory
@@ -108,13 +115,9 @@ class CostDecorator extends CardDecorator {
     + GetUseCost(): int
 }
 
-class TrapAbilityDecorator extends CardDecorator {
-    + TrapAbility: Action
-    + GetUseCost(): int
-    + GetUseAttack(): int
+class DefenseDecorator extends CardDecorator {
     + GetDefense(): int
 }
-
 class StandardCard {
     + Id: guid
     + Name: string
@@ -124,24 +127,40 @@ class StandardCard {
     + GetDefense(): int
 }
 
+Class DeckCreator {
+    + AddStack(String Name): Stack
+    + AddSortableStack(String Name): Stack
+    + AddShufflableStack(String Name): Stack
+}
 
 Main o-- StandardGame: Creates
 Main o-- ConsoleDisplay: Creates
+
+
 ConsoleDisplay *-- Console
 Game *-- Display
 Game "1" *-- "many" Player : Has many >
 
 Player "1" *-- "1" Deck : Has a >
-Deck "1" *-- "Many" Stack : Contains many >
+Game o-down- CardFactory
+Game *-down- DeckCreator
 
-Deck "1" *-- "Many" ICard : Contains many >
+DeckCreator *-down- Stack
+DeckCreator *-down- SortableStack
+DeckCreator *-down- ShuffleableStack
+DeckCreator *-down- Deck
+
+Deck "1" o-- "Many" Stack : Contains many >
+Deck "1" *-- "Many" ICard : Contains >
 Stack "1" *-- "Many" ICard : Contains references to  >
+Stack *-down- SortableStack
+Stack *-down- ShuffleableStack
 
-StandardCard .|> ICard
-CardDecorator .|> ICard
-CardFactory "1" *-- "Many" StandardCard : Creates >
-CardFactory "1" *-- "Many" AttackDecorator : Creates >
-CardFactory "1" *-- "Many" CostDecorator : Creates >
-CardFactory "1" *-- "Many" TrapAbilityDecorator : Creates >
+StandardCard .up.|> ICard
+CardDecorator .up.|> ICard
+CardFactory *-down- StandardCard : Creates >
+CardFactory *-down- AttackDecorator : Creates >
+CardFactory *-down- CostDecorator : Creates >
+CardFactory *-down- DefenseDecorator : Creates >
 
 @enduml
