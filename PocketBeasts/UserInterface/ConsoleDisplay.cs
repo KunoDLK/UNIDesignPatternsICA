@@ -8,11 +8,11 @@ using System.Xml.Serialization;
 
 namespace PocketBeasts.UserInterface
 {
-      internal class ConsoleDisplay
+      public class ConsoleDisplay
       {
-            private static readonly string[] PositiveResponses = new string[] { "y", "yes" };
+            private static readonly string[] PositiveResponses = ["y", "yes"];
 
-            private static readonly string[] NegativeResponses = new string[] { "n", "no", "nope" };
+            private static readonly string[] NegativeResponses = ["n", "no", "nope"];
 
             public static bool GetBooleanPrompt(string prompt)
             {
@@ -24,17 +24,12 @@ namespace PocketBeasts.UserInterface
                   while (returnValue == null)
                   {
                         returnValue = ReadConsole(PositiveResponses, NegativeResponses);
-
-                        // Clear the input buffer
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                        Console.Write(" ");
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
                   }
 
                   return (bool)returnValue;
             }
 
-            private static bool? ReadConsole(string[] positiveResponses, string[] negativeResponses)
+            public static bool? ReadConsole(string[] positiveResponses, string[] negativeResponses)
             {
                   bool? returnValue = null;
 

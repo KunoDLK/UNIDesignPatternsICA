@@ -17,7 +17,7 @@
 
 using System;
 
-namespace uk.ac.tees.cis2001.pocketbeasts
+namespace PocketBeasts
 {
       public class Card : IComparable<Card>
       {

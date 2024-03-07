@@ -18,7 +18,7 @@
 using System;
 using System.Text;
 
-namespace uk.ac.tees.cis2001.pocketbeasts
+namespace PocketBeasts
 {
       public class Player
       {

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PocketBeasts.UserInterface;
 
-namespace uk.ac.tees.cis2001.pocketbeasts
+namespace PocketBeasts
 {
       class MainClass
       {

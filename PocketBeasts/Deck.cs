@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace uk.ac.tees.cis2001.pocketbeasts
+namespace PocketBeasts
 {
       public class Deck
       {
