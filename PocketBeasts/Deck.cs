@@ -20,41 +20,41 @@ using System.Collections.Generic;
 
 namespace uk.ac.tees.cis2001.pocketbeasts
 {
-    public class Deck
-    {
-        private readonly List<Card> cards;
+      public class Deck
+      {
+            private readonly List<Card> cards;
 
-        public Deck(List<Card> cards)
-        {
-            this.cards = cards;
-        }
-
-        public int Count
-        {
-            get { return this.cards.Count; }
-        }
-
-        public Card Draw()
-        {
-            Card card = this.cards[0];
-            this.cards.RemoveAt(0);
-            return card;
-        }
-
-        public void Shuffle()
-        {
-            // Using Fisher-Yates shuffle algorithm
-            Random random = new Random();
-            int n = this.cards.Count;
-            for (int i = n - 1; i > 0; i--)
+            public Deck(List<Card> cards)
             {
-                int j = random.Next(0, i + 1);
-                // Swap
-                Card temp = this.cards[i];
-                this.cards[i] = this.cards[j];
-                this.cards[j] = temp;
+                  this.cards = cards;
             }
-        }
-    }
+
+            public int Count
+            {
+                  get { return this.cards.Count; }
+            }
+
+            public Card Draw()
+            {
+                  Card card = this.cards[0];
+                  this.cards.RemoveAt(0);
+                  return card;
+            }
+
+            public void Shuffle()
+            {
+                  // Using Fisher-Yates shuffle algorithm
+                  Random random = new Random();
+                  int n = this.cards.Count;
+                  for (int i = n - 1; i > 0; i--)
+                  {
+                        int j = random.Next(0, i + 1);
+                        // Swap
+                        Card temp = this.cards[i];
+                        this.cards[i] = this.cards[j];
+                        this.cards[j] = temp;
+                  }
+            }
+      }
 }
 

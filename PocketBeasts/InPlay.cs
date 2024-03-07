@@ -19,44 +19,44 @@ using System.Collections.Generic;
 
 namespace uk.ac.tees.cis2001.pocketbeasts
 {
-    public class InPlay
-    {
-        private readonly List<Card> cards;
+      public class InPlay
+      {
+            private readonly List<Card> cards;
 
-        public InPlay()
-        {
-            this.cards = new List<Card>();
-        }
+            public InPlay()
+            {
+                  this.cards = new List<Card>();
+            }
 
-        public List<Card> Cards
-        {
-            get { return this.cards; }
-        }
+            public List<Card> Cards
+            {
+                  get { return this.cards; }
+            }
 
-        public Card GetCard(int index)
-        {
-            return this.cards[index];
-        }
+            public Card GetCard(int index)
+            {
+                  return this.cards[index];
+            }
 
-        public void Add(Card card)
-        {
-            this.cards.Add(card);
-        }
+            public void Add(Card card)
+            {
+                  this.cards.Add(card);
+            }
 
-        public void Remove(Card card)
-        {
-            this.cards.Remove(card);
-        }
+            public void Remove(Card card)
+            {
+                  this.cards.Remove(card);
+            }
 
-        public void RemoveAll(List<Card> cards)
-        {
-            this.cards.RemoveAll(cards.Contains);
-        }
+            public void RemoveAll(List<Card> cards)
+            {
+                  this.cards.RemoveAll(cards.Contains);
+            }
 
-        public int Count
-        {
-            get { return this.cards.Count; }
-        }
-    }
+            public int Count
+            {
+                  get { return this.cards.Count; }
+            }
+      }
 }
 

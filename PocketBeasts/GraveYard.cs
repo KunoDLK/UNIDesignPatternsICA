@@ -19,23 +19,23 @@ using System.Collections.Generic;
 
 namespace uk.ac.tees.cis2001.pocketbeasts
 {
-    public class Graveyard
-    {
-        private readonly List<Card> cards;
+      public class Graveyard
+      {
+            private readonly List<Card> cards;
 
-        public Graveyard()
-        {
-            this.cards = new List<Card>();
-        }
+            public Graveyard()
+            {
+                  this.cards = new List<Card>();
+            }
 
-        public void Add(Card card)
-        {
-            this.cards.Add(card);
-        }
+            public void Add(Card card)
+            {
+                  this.cards.Add(card);
+            }
 
-        public int Count
-        {
-            get { return this.cards.Count; }
-        }
-    }
+            public int Count
+            {
+                  get { return this.cards.Count; }
+            }
+      }
 }

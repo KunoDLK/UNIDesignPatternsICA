@@ -19,71 +19,71 @@ using System;
 
 namespace uk.ac.tees.cis2001.pocketbeasts
 {
-    public class Card : IComparable<Card>
-    {
-        private readonly string id;
-        private readonly string name;
-        private readonly int manaCost;
-        private readonly int attack;
-        private int health;
+      public class Card : IComparable<Card>
+      {
+            private readonly string id;
+            private readonly string name;
+            private readonly int manaCost;
+            private readonly int attack;
+            private int health;
 
-        public Card(string id, string name, int manaCost, int attack, int health)
-        {
-            this.id = id;
-            this.name = name;
-            this.manaCost = manaCost;
-            this.attack = attack;
-            this.health = health;
-        }
+            public Card(string id, string name, int manaCost, int attack, int health)
+            {
+                  this.id = id;
+                  this.name = name;
+                  this.manaCost = manaCost;
+                  this.attack = attack;
+                  this.health = health;
+            }
 
-        public Card(Card card)
-        {
-            this.id = card.id;
-            this.name = card.name;
-            this.manaCost = card.manaCost;
-            this.attack = card.attack;
-            this.health = card.health;
-        }
+            public Card(Card card)
+            {
+                  this.id = card.id;
+                  this.name = card.name;
+                  this.manaCost = card.manaCost;
+                  this.attack = card.attack;
+                  this.health = card.health;
+            }
 
-        public string Id
-        {
-            get { return this.id; }
-        }
+            public string Id
+            {
+                  get { return this.id; }
+            }
 
-        public string Name
-        {
-            get { return this.name; }
-        }
+            public string Name
+            {
+                  get { return this.name; }
+            }
 
-        public int ManaCost
-        {
-            get { return this.manaCost; }
-        }
+            public int ManaCost
+            {
+                  get { return this.manaCost; }
+            }
 
-        public int Attack
-        {
-            get { return this.attack; }
-        }
+            public int Attack
+            {
+                  get { return this.attack; }
+            }
 
-        public int Health
-        {
-            get { return this.health; }
-        }
+            public int Health
+            {
+                  get { return this.health; }
+            }
 
-        public void Damage(int amount)
-        {
-            this.health -= amount;
-        }
+            public void Damage(int amount)
+            {
+                  this.health -= amount;
+            }
 
         public override string ToString()
         {
             return $"Card{{id='{this.Id}', name='{this.Name}', manaCost={this.ManaCost}, attack={this.Attack}, health={this.Health}}}";
         }
 
-        public int CompareTo(Card other)
-        {
-            return this.ManaCost.CompareTo(other.ManaCost);
-        }
-    }
+            public int CompareTo(Card other)
+            {
+                  return this.ManaCost.CompareTo(other.ManaCost);
+            }
+      }
 }
 

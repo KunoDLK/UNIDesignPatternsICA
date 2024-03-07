@@ -21,88 +21,88 @@ using System.Text;
 
 namespace uk.ac.tees.cis2001.pocketbeasts
 {
-    public class Hand
-    {
-        private readonly List<Card> cards;
+      public class Hand
+      {
+            private readonly List<Card> cards;
 
-        public Hand()
-        {
-            this.cards = new List<Card>();
-        }
-
-        public List<Card> Cards
-        {
-            get { return this.cards; }
-        }
-
-        public void Add(Card card)
-        {
-            this.cards.Add(card);
-            this.Sort();
-        }
-
-        public void Remove(Card card)
-        {
-            this.cards.Remove(card);
-        }
-
-        public void RemoveAll(List<Card> cards)
-        {
-            this.cards.RemoveAll(cards.Contains);
-        }
-
-        public int Count
-        {
-            get { return this.cards.Count; }
-        }
-
-        public void Sort()
-        {
-            this.cards.Sort();
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < this.Count; i++)
+            public Hand()
             {
-                sb.Append("+-------+ ");
+                  this.cards = new List<Card>();
             }
-            sb.Append("\n");
 
-            foreach (Card card in this.Cards)
+            public List<Card> Cards
             {
-                sb.Append(string.Format("|{0,7}| ", card.ManaCost));
+                  get { return this.cards; }
             }
-            sb.Append("\n");
 
-            foreach (Card card in this.Cards)
+            public void Add(Card card)
             {
-                sb.Append(string.Format("|  {0,-5}| ", card.Id));
+                  this.cards.Add(card);
+                  this.Sort();
             }
-            sb.Append("\n");
 
-            for (int i = 0; i < this.Count; i++)
+            public void Remove(Card card)
             {
-                sb.Append("|       | ");
+                  this.cards.Remove(card);
             }
-            sb.Append("\n");
 
-            foreach (Card card in this.Cards)
+            public void RemoveAll(List<Card> cards)
             {
-                sb.Append(string.Format("|{0, -2} {1,4}| ", card.Attack, card.Health));
+                  this.cards.RemoveAll(cards.Contains);
             }
-            sb.Append("\n");
 
-            for (int i = 0; i < this.Count; i++)
+            public int Count
             {
-                sb.Append("+-------+ ");
+                  get { return this.cards.Count; }
             }
-            sb.Append("\n");
 
-            return sb.ToString();
-        }
-    }
+            public void Sort()
+            {
+                  this.cards.Sort();
+            }
+
+            public override string ToString()
+            {
+                  StringBuilder sb = new StringBuilder();
+
+                  for (int i = 0; i < this.Count; i++)
+                  {
+                        sb.Append("+-------+ ");
+                  }
+                  sb.Append("\n");
+
+                  foreach (Card card in this.Cards)
+                  {
+                        sb.Append(string.Format("|{0,7}| ", card.ManaCost));
+                  }
+                  sb.Append("\n");
+
+                  foreach (Card card in this.Cards)
+                  {
+                        sb.Append(string.Format("|  {0,-5}| ", card.Id));
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < this.Count; i++)
+                  {
+                        sb.Append("|       | ");
+                  }
+                  sb.Append("\n");
+
+                  foreach (Card card in this.Cards)
+                  {
+                        sb.Append(string.Format("|{0, -2} {1,4}| ", card.Attack, card.Health));
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < this.Count; i++)
+                  {
+                        sb.Append("+-------+ ");
+                  }
+                  sb.Append("\n");
+
+                  return sb.ToString();
+            }
+      }
 }
 
