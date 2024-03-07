@@ -77,7 +77,7 @@ namespace uk.ac.tees.cis2001.pocketbeasts
 
         public override string ToString()
         {
-            return $"{this.name} ({this.id}) Mana Cost/{this.manaCost} Attack/{this.attack} Health/{this.health}";
+            return $"Card{{id='{this.Id}', name='{this.Name}', manaCost={this.ManaCost}, attack={this.Attack}, health={this.Health}}}";
         }
 
         public int CompareTo(Card other)
