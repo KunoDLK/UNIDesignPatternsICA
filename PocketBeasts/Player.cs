@@ -17,6 +17,7 @@
 
 using System;
 using System.Text;
+using PocketBeasts.CardHandling;
 
 namespace PocketBeasts
 {
@@ -30,21 +31,20 @@ namespace PocketBeasts
             private int manaTicker;
             private int health;
 
-            private readonly Deck deck;
-            private readonly Hand hand;
-            private readonly InPlay inPlay;
-            private readonly Graveyard graveyard;
+            private PlayerCards _playerCards;
 
-            public Player(string name, Deck deck)
+            public Player(string name, List<Card> deck)
             {
                   this.name = name;
                   this.manaAvailable = 0;
                   this.manaTicker = 0;
                   this.health = 15;
-                  this.deck = deck;
-                  this.hand = new Hand();
-                  this.inPlay = new InPlay();
-                  this.graveyard = new Graveyard();
+                  PlayerCards = new PlayerCards(deck);
+                  PlayerCards.AddStack("deck");
+                  PlayerCards.AddStack("hand");
+                  PlayerCards.AddStack("inplay");
+                  PlayerCards.AddStack("graveyard");
+                  Deck.Cards.AddRange(PlayerCards.Cards);
             }
 
             public string Name
@@ -62,32 +62,38 @@ namespace PocketBeasts
                   get { return this.health; }
             }
 
-            public Deck Deck
+            public PlayerCards PlayerCards
             {
-                  get { return this.deck; }
+                  get { return _playerCards; }
+                  private set { _playerCards = value; }
             }
 
-            public Hand Hand
+            public Stack Deck
             {
-                  get { return this.hand; }
+                  get { return PlayerCards.GetStack("deck"); }
             }
 
-            public InPlay InPlay
+            public Stack Hand
             {
-                  get { return this.inPlay; }
+                  get { return PlayerCards.GetStack("hand"); }
             }
 
-            public Graveyard Graveyard
+            public Stack InPlay
             {
-                  get { return this.graveyard; }
+                  get { return PlayerCards.GetStack("inplay"); }
+            }
+
+            public Stack Graveyard
+            {
+                  get { return PlayerCards.GetStack("graveyard"); }
             }
 
             public void NewGame()
             {
-                  this.deck.Shuffle();
+                  this.Deck.Shuffle();
                   for (int i = 0; i < 4; i++)
                   {
-                        this.hand.Add(this.deck.Draw());
+                        this.Hand.Add(this.Deck.Draw());
                   }
             }
 
@@ -107,7 +113,7 @@ namespace PocketBeasts
 
             public void DrawCard()
             {
-                  this.hand.Add(this.deck.Draw());
+                  this.Hand.Add(this.Deck.Draw());
             }
 
             public bool Damage(int amount)
@@ -121,7 +127,7 @@ namespace PocketBeasts
                   StringBuilder sb = new StringBuilder();
                   sb.Append($"{this.name,-9} HEALTH/{this.health,-5} MANA/{this.manaAvailable}\n");
 
-                  for (int i = 0; i < this.inPlay.Count + 2; i++)
+                  for (int i = 0; i < InPlay.Count + 2; i++)
                   {
                         sb.Append("+-------+ ");
                   }
@@ -131,23 +137,23 @@ namespace PocketBeasts
                   {
                         sb.Append("|       | ");
                   }
-                  for (int i = 0; i < this.inPlay.Count; i++)
+                  for (int i = 0; i < this.InPlay.Count; i++)
                   {
-                        sb.Append($"{this.inPlay.GetCard(i).ManaCost,7}| ");
+                        sb.Append($"{this.InPlay.Cards[i].ManaCost,7}| ");
                   }
                   sb.Append("\n");
 
                   sb.Append("| DECK  | ");
                   sb.Append("| GRAVE | ");
-                  for (int i = 0; i < this.inPlay.Count; i++)
+                  for (int i = 0; i < this.InPlay.Count; i++)
                   {
-                        sb.Append($"{this.inPlay.GetCard(i).Id,-5}| ");
+                        sb.Append($"{this.InPlay.Cards[i].Id,-5}| ");
                   }
                   sb.Append("\n");
 
-                  sb.Append($"{this.deck.Count,-6}| ");
-                  sb.Append($"{this.graveyard.Count,-6}| ");
-                  for (int i = 0; i < this.inPlay.Count; i++)
+                  sb.Append($"{this.Deck.Count,-6}| ");
+                  sb.Append($"{this.Graveyard.Count,-6}| ");
+                  for (int i = 0; i < this.InPlay.Count; i++)
                   {
                         sb.Append("|       | ");
                   }
@@ -157,19 +163,19 @@ namespace PocketBeasts
                   {
                         sb.Append("|       | ");
                   }
-                  for (int i = 0; i < this.inPlay.Count; i++)
+                  for (int i = 0; i < this.InPlay.Count; i++)
                   {
-                        sb.Append($"{this.inPlay.GetCard(i).Attack,-2} {this.inPlay.GetCard(i).Health,4}| ");
+                        sb.Append($"{this.InPlay.Cards[i].Attack,-2} {this.InPlay.Cards[i].Health,4}| ");
                   }
                   sb.Append("\n");
 
-                  for (int i = 0; i < this.inPlay.Count + 2; i++)
+                  for (int i = 0; i < this.InPlay.Count + 2; i++)
                   {
                         sb.Append("+-------+ ");
                   }
                   sb.Append("\n");
-                  sb.Append($"{this.hand.Count} card(s) in hand.\n\n");
-                  sb.Append(this.hand.ToString());
+                  sb.Append($"{this.Hand.Count} card(s) in hand.\n\n");
+                  sb.Append(this.Hand.ToString());
 
                   return sb.ToString();
             }

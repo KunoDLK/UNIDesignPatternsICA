@@ -48,20 +48,6 @@ namespace PocketBeasts
                   return starterDeck;
             }
 
-            public static string GetPrompt(string prompt, string[] validResponse)
-            {
-                  Console.Write(prompt);
-
-                  string response = Console.ReadLine();
-
-                  if (validResponse.Contains(response, StringComparer.OrdinalIgnoreCase))
-                  {
-                        return response;
-                  }
-
-                  return GetPrompt(prompt, validResponse);
-            }
-
             public static void Main(string[] args)
             {
                   Console.WriteLine("");
@@ -99,8 +85,8 @@ namespace PocketBeasts
 
                   Player[] players = new Player[]
                   {
-                new Player("James", new Deck(GetStarterDeck())),
-                new Player("Steve", new Deck(GetStarterDeck()))
+                new Player("James", GetStarterDeck()),
+                new Player("Steve", GetStarterDeck())
                   };
 
                   foreach (Player player in players)
@@ -144,14 +130,14 @@ namespace PocketBeasts
 
                                           for (int i = 0; i < otherPlayer.InPlay.Count; i++)
                                           {
-                                                Console.WriteLine($"{i + 2}. {otherPlayer.InPlay.GetCard(i)}");
+                                                Console.WriteLine($"{i + 2}. {otherPlayer.InPlay.Cards[i]}");
                                           }
 
                                           string[] prompts = Enumerable.Range(1, otherPlayer.InPlay.Count + 1)
                                               .Select(i => i.ToString())
                                               .ToArray();
 
-                                          string target = GetPrompt("Choose a number: ", prompts);
+                                          string target = ConsoleDisplay.GetPrompt("Choose a number: ", prompts);
 
                                           if (target.Equals("1")) // Player
                                           {
@@ -167,7 +153,7 @@ namespace PocketBeasts
                                           }
                                           else // Beast, index is `target-2`
                                           {
-                                                Card targetCard = otherPlayer.InPlay.GetCard(int.Parse(target) - 2);
+                                                Card targetCard = otherPlayer.InPlay.Cards[int.Parse(target) - 2];
                                                 targetCard.Damage(card.Attack);
                                                 card.Damage(targetCard.Attack);
                                           }

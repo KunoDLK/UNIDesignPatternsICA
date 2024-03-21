@@ -47,5 +47,20 @@ namespace PocketBeasts.UserInterface
                   return returnValue;
             }
 
+
+            public static string GetPrompt(string prompt, string[] validResponse)
+            {
+                  string response = string.Empty;
+
+                  do
+                  {
+                        Console.Write(prompt);
+                        response = Console.ReadLine();
+
+                  } while (!validResponse.Contains(response, StringComparer.OrdinalIgnoreCase));
+
+                  return response;
+            }
+
       }
 }
