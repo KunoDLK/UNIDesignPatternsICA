@@ -18,10 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using PocketBeasts.CardHandling.Stacks;
 
 namespace PocketBeasts.CardHandling
 {
-      public class PlayerCards
+    public class PlayerCards
       {
             private List<Card> _cards;
             private Dictionary<string, Stack> _stacks;
@@ -56,6 +57,11 @@ namespace PocketBeasts.CardHandling
             public void AddStack(string name)
             {
                   _stacks.Add(name, new Stack(name));
+            }
+
+            public void AddShuffableStack(string name)
+            {
+                  _stacks.Add(name, new ShuffelableStack(name));
             }
 
       }

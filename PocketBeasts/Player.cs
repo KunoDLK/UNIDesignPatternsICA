@@ -18,10 +18,11 @@
 using System;
 using System.Text;
 using PocketBeasts.CardHandling;
+using PocketBeasts.CardHandling.Stacks;
 
 namespace PocketBeasts
 {
-      public class Player
+    public class Player
       {
             private const int MaxMana = 9;
 
@@ -40,7 +41,7 @@ namespace PocketBeasts
                   this.manaTicker = 0;
                   this.health = 15;
                   PlayerCards = new PlayerCards(deck);
-                  PlayerCards.AddStack("deck");
+                  PlayerCards.AddShuffableStack("deck");
                   PlayerCards.AddStack("hand");
                   PlayerCards.AddStack("inplay");
                   PlayerCards.AddStack("graveyard");
@@ -68,9 +69,9 @@ namespace PocketBeasts
                   private set { _playerCards = value; }
             }
 
-            public Stack Deck
+            public ShuffelableStack Deck
             {
-                  get { return PlayerCards.GetStack("deck"); }
+                  get { return (ShuffelableStack)PlayerCards.GetStack("deck"); }
             }
 
             public Stack Hand
