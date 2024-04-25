@@ -8,13 +8,13 @@ using System.Xml.Serialization;
 
 namespace PocketBeasts.UserInterface
 {
-      public class ConsoleDisplay
+      public class ConsoleDisplay : Display
       {
-            private static readonly string[] PositiveResponses = ["y", "yes"];
+            private readonly string[] PositiveResponses = ["y", "yes"];
 
-            private static readonly string[] NegativeResponses = ["n", "no", "nope"];
+            private readonly string[] NegativeResponses = ["n", "no", "nope"];
 
-            public static bool GetBooleanPrompt(string prompt)
+            public override bool GetBooleanPrompt(string prompt)
             {
                   bool? returnValue = null;
 
@@ -29,7 +29,7 @@ namespace PocketBeasts.UserInterface
                   return (bool)returnValue;
             }
 
-            public static bool? ReadConsole(string[] positiveResponses, string[] negativeResponses)
+            public bool? ReadConsole(string[] positiveResponses, string[] negativeResponses)
             {
                   bool? returnValue = null;
 
@@ -48,7 +48,7 @@ namespace PocketBeasts.UserInterface
             }
 
 
-            public static string GetPrompt(string prompt, string[] validResponse)
+            public override string GetPrompt(string prompt, string[] validResponse)
             {
                   string response = string.Empty;
 
@@ -62,5 +62,7 @@ namespace PocketBeasts.UserInterface
                   return response;
             }
 
+            public override void OutputText(string text) => Console.WriteLine(text);
+           
       }
 }
