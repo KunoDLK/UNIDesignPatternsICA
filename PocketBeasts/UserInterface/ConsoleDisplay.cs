@@ -10,7 +10,7 @@ namespace PocketBeasts.UserInterface
 {
       public class ConsoleDisplay : Display
       {
-            private readonly string[] PositiveResponses = ["y", "yes"];
+            private readonly string[] PositiveResponses = ["y", "yes", "yeah"];
 
             private readonly string[] NegativeResponses = ["n", "no", "nope"];
 
@@ -57,12 +57,15 @@ namespace PocketBeasts.UserInterface
                         Console.Write(prompt);
                         response = Console.ReadLine();
 
-                  } while (!validResponse.Contains(response, StringComparer.OrdinalIgnoreCase));
+                  } while (response == null || !validResponse.Contains(response, StringComparer.OrdinalIgnoreCase));
 
                   return response;
             }
 
+
             public override void OutputText(string text) => Console.WriteLine(text);
+
+            public override void Clear() => Console.Clear();
            
       }
 }

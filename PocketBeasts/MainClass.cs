@@ -11,14 +11,14 @@ namespace PocketBeasts
       {
             public static readonly Card[] StarterCards = new Card[]
             {
-            new Card("BR", "Barn Rat", 1, 1, 1),
-            new Card("SP", "Scampering Pup", 2, 2, 1),
-            new Card("HB", "Hardshell Beetle", 2, 1, 2),
-            new Card("VHC", "Vicious House Cat", 3, 3, 2),
-            new Card("GD", "Guard Dog", 3, 2, 3),
-            new Card("ARH", "All Round Hound", 3, 3, 3),
-            new Card("MO", "Moor Owl", 4, 4, 2),
-            new Card("HT", "Highland Tiger", 5, 4, 4)
+                  new Card("BR", "Barn Rat", 1, 1, 1),
+                  new Card("SP", "Scampering Pup", 2, 2, 1),
+                  new Card("HB", "Hardshell Beetle", 2, 1, 2),
+                  new Card("VHC", "Vicious House Cat", 3, 3, 2),
+                  new Card("GD", "Guard Dog", 3, 2, 3),
+                  new Card("ARH", "All Round Hound", 3, 3, 3),
+                  new Card("MO", "Moor Owl", 4, 4, 2),
+                  new Card("HT", "Highland Tiger", 5, 4, 4)
             };
 
             public static List<Card> GetStarterDeck()
@@ -39,8 +39,6 @@ namespace PocketBeasts
                   display.OutputText("-+-+-+-+-+-+-+-+-+-+-+-+");
                   display.OutputText("Welcome to PocketBeasts!");
                   display.OutputText("-+-+-+-+-+-+-+-+-+-+-+-+");
-                  display.OutputText("");
-                  display.OutputText("This basic console application tests our underlying software design patterns.");
                   display.OutputText("");
                   display.OutputText("Here's a key for each card:");
                   display.OutputText("");
@@ -77,7 +75,7 @@ namespace PocketBeasts
                   foreach (Player player in players)
                   {
                         player.NewGame();
-                        Console.WriteLine(player);
+                        display.OutputText(player.ToString());
                   }
 
                   string winningMessage = "";
@@ -91,7 +89,7 @@ namespace PocketBeasts
                               player.DrawCard();
 
                               // Print initial play state
-                              Console.WriteLine(player);
+                              display.OutputText(player.ToString());
 
                               // HACK assumes only one other player
                               Player otherPlayer = players.First(p => p != player);
@@ -105,17 +103,17 @@ namespace PocketBeasts
                               // Cycle through cards in play to attack
                               foreach (Card card in player.InPlay.Cards)
                               {
-                                    Console.WriteLine(card.ToString());
+                                    display.OutputText(card.ToString());
 
                                     if (display.GetBooleanPrompt($"{player.Name} attack with {card.Name}?"))
                                     {
                                           // Choose who to attack, player directly or a player's beast
-                                          Console.WriteLine("Who would you like to attack? ");
-                                          Console.WriteLine("1. " + otherPlayer.Name);
+                                          display.OutputText("Who would you like to attack? ");
+                                          display.OutputText("1. " + otherPlayer.Name);
 
                                           for (int i = 0; i < otherPlayer.InPlay.Count; i++)
                                           {
-                                                Console.WriteLine($"{i + 2}. {otherPlayer.InPlay.Cards[i]}");
+                                                display.OutputText($"{i + 2}. {otherPlayer.InPlay.Cards[i]}");
                                           }
 
                                           string[] prompts = Enumerable.Range(1, otherPlayer.InPlay.Count + 1)
@@ -134,7 +132,7 @@ namespace PocketBeasts
                                                       break;
                                                 }
 
-                                                Console.WriteLine($"{otherPlayer.Name} is now at {otherPlayer.Health}");
+                                                display.OutputText($"{otherPlayer.Name} is now at {otherPlayer.Health}");
                                           }
                                           else // Beast, index is `target-2`
                                           {
@@ -175,7 +173,7 @@ namespace PocketBeasts
                               {
                                     if (card.ManaCost <= player.ManaAvailable)
                                     {
-                                          Console.WriteLine(card.ToString());
+                                          display.OutputText(card.ToString());
 
                                           if (display.GetBooleanPrompt($"{player.Name} play {card.Name}?"))
                                           {
@@ -189,12 +187,12 @@ namespace PocketBeasts
                               player.Hand.RemoveAll(toRemove);
 
                               // Print final play state
-                              Console.Clear();
-                              Console.WriteLine(player);
+                              display.Clear();
+                              display.OutputText(player.ToString());
                         }
                   }
 
-                  Console.WriteLine(winningMessage);
+                  display.OutputText(winningMessage);
             }
       }
 }

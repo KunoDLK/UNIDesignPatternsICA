@@ -14,6 +14,7 @@ namespace PocketBeasts.UserInterface
             public abstract string GetPrompt(string prompt, string[] validResponse);
 
             public abstract void OutputText(string text);
-
+            
+            public abstract void Clear();
       }
 }
