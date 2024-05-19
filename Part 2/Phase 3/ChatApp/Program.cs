@@ -1,69 +1,112 @@
-﻿using System;
+﻿using System.Net.Sockets;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
+class Connection : IDisposable
+{
+      public TcpClient Client { get; set; }
+
+      public Thread Thread { get; set; }
+
+      public NetworkStream NetworkStream { get; set; }
+
+      public Connection(IPAddress address, int portNumber)
+      {
+            Client = new TcpClient();
+            Client.Connect(address, portNumber);
+            Console.WriteLine("client connected!!");
+            NetworkStream = Client.GetStream();
+            Thread = new Thread(o => ReceiveData((TcpClient)o));
+
+            Thread.Start(Client);
+      }
+
+      static void ReceiveData(TcpClient client)
+      {
+            NetworkStream ns = client.GetStream();
+            byte[] receivedBytes = new byte[1024];
+            int byte_count;
+
+            while ((byte_count = ns.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+            {
+                  Console.Write(Encoding.ASCII.GetString(receivedBytes, 0, byte_count));
+            }
+      }
+
+      public void Dispose()
+      {
+            Client.Client.Shutdown(SocketShutdown.Send);
+            Thread.Join();
+            NetworkStream.Close();
+            Client.Close();
+            Console.WriteLine("disconnect from server!!");
+            Console.ReadKey();
+      }
+
+      public void SendMessage(Message message)
+      {
+            byte[] userToken = Encoding.ASCII.GetBytes(message.MessageUser.token.ToString());
+            byte[] usernameBuffer = Encoding.ASCII.GetBytes(message.MessageUser.Name);
+            byte[] messageBuffer = Encoding.ASCII.GetBytes(message.MessageText);
+
+            int arrayPointer = 0;
+            byte[] messagePacket = new byte[userToken.Length + usernameBuffer.Length + messageBuffer.Length];
+
+            System.Array.Copy(userToken, 0, messagePacket, arrayPointer, userToken.Length);
+            arrayPointer += userToken.Length;
+            System.Array.Copy(usernameBuffer, 0, messagePacket, arrayPointer, usernameBuffer.Length);
+            arrayPointer += usernameBuffer.Length;
+            System.Array.Copy(messageBuffer, 0, messagePacket, arrayPointer, messageBuffer.Length);
+
+            NetworkStream.Write(messagePacket, 0, messagePacket.Length);
+      }
+}
+
 class Program
 {
-      private const int port = 8888;
-      private const string serverIpAddress = "127.0.0.1";
+      public static User? User { get; set; }
+
+      public static Connection? Connection { get; set; }
 
       static void Main(string[] args)
       {
-            try
+            Console.WriteLine("Please enter your name");
+            string name = Console.ReadLine();
+
+            User = new User(name);
+
+            Connection = new Connection(IPAddress.Parse("127.0.0.1"), 3200);
+
+            string input;
+            while (!(input = Console.ReadLine()).Equals("exit"))
             {
-                  IPAddress ipAddress = IPAddress.Parse(serverIpAddress);
-                  IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
-
-                  // Create a TCP/IP socket.  
-                  Socket sender = new Socket(ipAddress.AddressFamily,
-                      SocketType.Stream, ProtocolType.Tcp);
-
-                  try
-                  {
-                        // Connect the socket to the remote endpoint. Catch any errors.  
-                        sender.Connect(remoteEP);
-
-                        Console.WriteLine("Socket connected to {0}",
-                            sender.RemoteEndPoint.ToString());
-
-                        // Create a message to send to the server.
-                        Console.WriteLine("Enter a message:");
-                        string message = Console.ReadLine();
-
-                        byte[] msg = Encoding.ASCII.GetBytes(message);
-
-                        // Send the data through the socket.  
-                        int bytesSent = sender.Send(msg);
-
-                        // Receive the response from the remote device.
-                        byte[] bytes = new byte[1024];
-                        int bytesRec = sender.Receive(bytes);
-                        Console.WriteLine("Echoed test = {0}",
-                            Encoding.ASCII.GetString(bytes, 0, bytesRec));
-
-                        // Release the socket.  
-                        sender.Shutdown(SocketShutdown.Both);
-                        sender.Close();
-
-                  }
-                  catch (ArgumentNullException ane)
-                  {
-                        Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-                  }
-                  catch (SocketException se)
-                  {
-                        Console.WriteLine("SocketException : {0}", se.ToString());
-                  }
-                  catch (Exception e)
-                  {
-                        Console.WriteLine("Unexpected exception : {0}", e.ToString());
-                  }
+                  Connection.SendMessage(new Message(User, input));
             }
-            catch (Exception e)
-            {
-                  Console.WriteLine(e.ToString());
-            }
+      }
+}
+
+public class User
+{
+      public Guid token { get; set; }
+      public string Name { get; set; }
+
+      public User(string name)
+      {
+            this.Name = name;
+            this.token = Guid.NewGuid();
+      }
+}
+
+public class Message
+{
+      public User MessageUser { get; set; }
+
+      public string MessageText { get; set; }
+
+      public Message(User user, string message)
+      {
+            MessageUser = user;
+            MessageText = message;
       }
 }
