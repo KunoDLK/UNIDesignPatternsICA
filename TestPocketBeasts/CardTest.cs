@@ -1,8 +1,10 @@
+using PocketBeasts.CardHandling;
+
 namespace TestPocketBeasts
 {
 
 
-      [TestFixture]
+    [TestFixture]
       public class CardTest
       {
             [Test]

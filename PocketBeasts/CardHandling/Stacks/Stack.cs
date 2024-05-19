@@ -1,6 +1,6 @@
 ﻿namespace PocketBeasts.CardHandling.Stacks
 {
-      public class Stack
+    public class Stack
       {
             private string _name;
             private List<Card> cards;
@@ -56,10 +56,14 @@
                   this.cards.RemoveAll(cards.Contains);
             }
 
-            internal void Add(Card card)
+            public void RemoveAll()
+            {
+                  this.Cards.Clear();
+            }
+
+            public void Add(Card card)
             {
                   Cards.Add(card);
-                  Cards.Sort();
             }
       }
 }

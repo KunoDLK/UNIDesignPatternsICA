@@ -23,163 +23,158 @@ using PocketBeasts.CardHandling.Stacks;
 namespace PocketBeasts
 {
     public class Player
-      {
-            private const int MaxMana = 9;
+    {
+        private const int MaxMana = 9;
 
-            private readonly string name;
+        private readonly string name;
 
-            private int manaAvailable;
-            private int manaTicker;
-            private int health;
+        private int manaAvailable;
+        private int manaTicker;
+        private int health;
 
-            private PlayerCards _playerCards;
+        private PlayerCards _playerCards;
 
-            public Player(string name, List<Card> deck)
+        public Player(string name, List<Card> deck)
+        {
+            this.name = name;
+            manaAvailable = 0;
+            manaTicker = 0;
+            health = 15;
+            PlayerCards = new PlayerCards(deck);
+            PlayerCards.AddShuffableStack("deck");
+            PlayerCards.AddStack("hand");
+            PlayerCards.AddStack("inplay");
+            PlayerCards.AddStack("graveyard");
+            Deck.Cards.AddRange(PlayerCards.Cards);
+        }
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public int ManaAvailable
+        {
+            get { return manaAvailable; }
+        }
+
+        public int Health
+        {
+            get { return health; }
+        }
+
+        public PlayerCards PlayerCards
+        {
+            get { return _playerCards; }
+            private set { _playerCards = value; }
+        }
+
+        public ShuffelableStack Deck
+        {
+            get { return (ShuffelableStack)PlayerCards.GetStack("deck"); }
+        }
+
+        public Stack Hand
+        {
+            get { return PlayerCards.GetStack("hand"); }
+        }
+
+        public Stack InPlay
+        {
+            get { return PlayerCards.GetStack("inplay"); }
+        }
+
+        public Stack Graveyard
+        {
+            get { return PlayerCards.GetStack("graveyard"); }
+        }
+
+        public void NewGame()
+        {
+            Deck.Shuffle();
+            for (int i = 0; i < 4; i++)
             {
-                  this.name = name;
-                  this.manaAvailable = 0;
-                  this.manaTicker = 0;
-                  this.health = 15;
-                  PlayerCards = new PlayerCards(deck);
-                  PlayerCards.AddShuffableStack("deck");
-                  PlayerCards.AddStack("hand");
-                  PlayerCards.AddStack("inplay");
-                  PlayerCards.AddStack("graveyard");
-                  Deck.Cards.AddRange(PlayerCards.Cards);
+                Hand.Add(Deck.Draw());
             }
+        }
 
-            public string Name
+        public void AddMana()
+        {
+            if (manaTicker < MaxMana)
             {
-                  get { return this.name; }
+                manaTicker++;
             }
+            manaAvailable = manaTicker;
+        }
 
-            public int ManaAvailable
+        public void UseMana(int amount)
+        {
+            manaAvailable -= amount;
+        }
+
+        public bool Damage(int amount)
+        {
+            health -= amount;
+            return health <= 0;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{name,-9} HEALTH/{health,-5} MANA/{manaAvailable}\n");
+
+            for (int i = 0; i < InPlay.Count + 2; i++)
             {
-                  get { return this.manaAvailable; }
+                sb.Append("+-------+ ");
             }
+            sb.Append("\n");
 
-            public int Health
+            for (int i = 0; i < 2; i++)
             {
-                  get { return this.health; }
+                sb.Append("|       | ");
             }
-
-            public PlayerCards PlayerCards
+            for (int i = 0; i < InPlay.Count; i++)
             {
-                  get { return _playerCards; }
-                  private set { _playerCards = value; }
+                sb.Append($"{InPlay.Cards[i].ManaCost,7}| ");
             }
+            sb.Append("\n");
 
-            public ShuffelableStack Deck
+            sb.Append("| DECK  | ");
+            sb.Append("| GRAVE | ");
+            for (int i = 0; i < InPlay.Count; i++)
             {
-                  get { return (ShuffelableStack)PlayerCards.GetStack("deck"); }
+                sb.Append($"{InPlay.Cards[i].Id,-5}| ");
             }
+            sb.Append("\n");
 
-            public Stack Hand
+            sb.Append($"{Deck.Count,-6}| ");
+            sb.Append($"{Graveyard.Count,-6}| ");
+            for (int i = 0; i < InPlay.Count; i++)
             {
-                  get { return PlayerCards.GetStack("hand"); }
+                sb.Append("|       | ");
             }
+            sb.Append("\n");
 
-            public Stack InPlay
+            for (int i = 0; i < 2; i++)
             {
-                  get { return PlayerCards.GetStack("inplay"); }
+                sb.Append("|       | ");
             }
-
-            public Stack Graveyard
+            for (int i = 0; i < InPlay.Count; i++)
             {
-                  get { return PlayerCards.GetStack("graveyard"); }
+                sb.Append($"{InPlay.Cards[i].Attack,-2} {InPlay.Cards[i].Health,4}| ");
             }
+            sb.Append("\n");
 
-            public void NewGame()
+            for (int i = 0; i < InPlay.Count + 2; i++)
             {
-                  this.Deck.Shuffle();
-                  for (int i = 0; i < 4; i++)
-                  {
-                        this.Hand.Add(this.Deck.Draw());
-                  }
+                sb.Append("+-------+ ");
             }
+            sb.Append("\n");
+            sb.Append($"{Hand.Count} card(s) in hand.\n\n");
+            sb.Append(Hand.ToString());
 
-            public void AddMana()
-            {
-                  if (this.manaTicker < MaxMana)
-                  {
-                        this.manaTicker++;
-                  }
-                  this.manaAvailable = manaTicker;
-            }
-
-            public void UseMana(int amount)
-            {
-                  this.manaAvailable -= amount;
-            }
-
-            public void DrawCard()
-            {
-                  this.Hand.Add(this.Deck.Draw());
-            }
-
-            public bool Damage(int amount)
-            {
-                  this.health -= amount;
-                  return this.health <= 0;
-            }
-
-            public override string ToString()
-            {
-                  StringBuilder sb = new StringBuilder();
-                  sb.Append($"{this.name,-9} HEALTH/{this.health,-5} MANA/{this.manaAvailable}\n");
-
-                  for (int i = 0; i < InPlay.Count + 2; i++)
-                  {
-                        sb.Append("+-------+ ");
-                  }
-                  sb.Append("\n");
-
-                  for (int i = 0; i < 2; i++)
-                  {
-                        sb.Append("|       | ");
-                  }
-                  for (int i = 0; i < this.InPlay.Count; i++)
-                  {
-                        sb.Append($"{this.InPlay.Cards[i].ManaCost,7}| ");
-                  }
-                  sb.Append("\n");
-
-                  sb.Append("| DECK  | ");
-                  sb.Append("| GRAVE | ");
-                  for (int i = 0; i < this.InPlay.Count; i++)
-                  {
-                        sb.Append($"{this.InPlay.Cards[i].Id,-5}| ");
-                  }
-                  sb.Append("\n");
-
-                  sb.Append($"{this.Deck.Count,-6}| ");
-                  sb.Append($"{this.Graveyard.Count,-6}| ");
-                  for (int i = 0; i < this.InPlay.Count; i++)
-                  {
-                        sb.Append("|       | ");
-                  }
-                  sb.Append("\n");
-
-                  for (int i = 0; i < 2; i++)
-                  {
-                        sb.Append("|       | ");
-                  }
-                  for (int i = 0; i < this.InPlay.Count; i++)
-                  {
-                        sb.Append($"{this.InPlay.Cards[i].Attack,-2} {this.InPlay.Cards[i].Health,4}| ");
-                  }
-                  sb.Append("\n");
-
-                  for (int i = 0; i < this.InPlay.Count + 2; i++)
-                  {
-                        sb.Append("+-------+ ");
-                  }
-                  sb.Append("\n");
-                  sb.Append($"{this.Hand.Count} card(s) in hand.\n\n");
-                  sb.Append(this.Hand.ToString());
-
-                  return sb.ToString();
-            }
-      }
+            return sb.ToString();
+        }
+    }
 }
 

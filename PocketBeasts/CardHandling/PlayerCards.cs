@@ -64,6 +64,14 @@ namespace PocketBeasts.CardHandling
                   _stacks.Add(name, new ShuffelableStack(name));
             }
 
+            public void TransferToFrom(string source, string destination)
+            {
+                  var sourceStack = GetStack(source);
+                  var destinationStack = GetStack(destination);
+
+                  var card = sourceStack.Draw();
+                  destinationStack.Add(card);
+            }
       }
 }
 

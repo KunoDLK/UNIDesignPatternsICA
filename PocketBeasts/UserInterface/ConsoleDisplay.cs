@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace PocketBeasts.UserInterface
 {
-      public class ConsoleDisplay : Display
+    public class ConsoleDisplay : Display
       {
             private readonly string[] PositiveResponses = ["y", "yes", "yeah"];
 
@@ -66,6 +66,64 @@ namespace PocketBeasts.UserInterface
             public override void OutputText(string text) => Console.WriteLine(text);
 
             public override void Clear() => Console.Clear();
-           
+
+            public override void OutputPlayer(Player player)
+            {
+                  StringBuilder sb = new StringBuilder();
+                  sb.Append($"{player.Name,-9} HEALTH/{player.Health,-5} MANA/{player.ManaAvailable}\n");
+
+                  for (int i = 0; i < player.InPlay.Count + 2; i++)
+                  {
+                        sb.Append("+-------+ ");
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < 2; i++)
+                  {
+                        sb.Append("|       | ");
+                  }
+                  for (int i = 0; i < player.InPlay.Count; i++)
+                  {
+                        sb.Append($"{player.InPlay.Cards[i].ManaCost,7}| ");
+                  }
+                  sb.Append("\n");
+
+                  sb.Append("| DECK  | ");
+                  sb.Append("| GRAVE | ");
+                  for (int i = 0; i < player.InPlay.Count; i++)
+                  {
+                        sb.Append($"{player.InPlay.Cards[i].Id,-5}| ");
+                  }
+                  sb.Append("\n");
+
+                  sb.Append($"{player.Deck.Count,-6}| ");
+                  sb.Append($"{player.Graveyard.Count,-6}| ");
+                  for (int i = 0; i < player.InPlay.Count; i++)
+                  {
+                        sb.Append("|       | ");
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < 2; i++)
+                  {
+                        sb.Append("|       | ");
+                  }
+                  for (int i = 0; i < player.InPlay.Count; i++)
+                  {
+                        sb.Append($"{player.InPlay.Cards[i].Attack,-2} {player.InPlay.Cards[i].Health,4}| ");
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < player.InPlay.Count + 2; i++)
+                  {
+                        sb.Append("+-------+ ");
+                  }
+                  sb.Append("\n");
+                  sb.Append($"{player.Hand.Count} card(s) in hand.\n\n");
+                  sb.Append(player.Hand.ToString());
+
+                  Console.WriteLine(sb.ToString());
+            }
+
       }
 }

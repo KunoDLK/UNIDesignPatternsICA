@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PocketBeasts.CardHandling;
 using PocketBeasts.UserInterface;
 
 namespace PocketBeasts
 {
-      class MainClass
+    class MainClass
       {
             public static readonly Card[] StarterCards = new Card[]
             {
@@ -86,10 +87,10 @@ namespace PocketBeasts
                         {
                               // Add mana and draw card
                               player.AddMana();
-                              player.DrawCard();
+                              player.PlayerCards.TransferToFrom(player.Deck.Name, player.Hand.Name);
 
                               // Print initial play state
-                              display.OutputText(player.ToString());
+                              display.OutputPlayer(player);
 
                               // HACK assumes only one other player
                               Player otherPlayer = players.First(p => p != player);

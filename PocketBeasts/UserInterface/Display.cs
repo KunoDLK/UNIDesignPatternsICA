@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace PocketBeasts.UserInterface
 {
-      public abstract class Display
+    public abstract class Display
       {
             public abstract bool GetBooleanPrompt(string prompt);
 
@@ -16,5 +16,7 @@ namespace PocketBeasts.UserInterface
             public abstract void OutputText(string text);
             
             public abstract void Clear();
+
+            public abstract void OutputPlayer(Player player);
       }
 }

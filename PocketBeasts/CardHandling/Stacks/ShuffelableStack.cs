@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PocketBeasts.CardHandling.Stacks
+﻿namespace PocketBeasts.CardHandling.Stacks
 {
-      public class ShuffelableStack : Stack
+    public class ShuffelableStack : Stack
       {
             public ShuffelableStack(string name) : base(name)
             {
