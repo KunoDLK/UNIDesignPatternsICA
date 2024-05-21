@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketBeasts", "..\Phase 1&2\PocketBeasts\PocketBeasts.csproj", "{67385560-2386-4B04-8FFD-07B1E7EAFD74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketBeasts", ".\PocketBeasts\PocketBeasts.csproj", "{67385560-2386-4B04-8FFD-07B1E7EAFD74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPocketBeasts", "..\Phase 1&2\TestPocketBeasts\TestPocketBeasts.csproj", "{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPocketBeasts", ".\TestPocketBeasts\TestPocketBeasts.csproj", "{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
