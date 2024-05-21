@@ -1,4 +1,6 @@
-﻿namespace PocketBeasts.CardHandling.Stacks
+﻿using System.Text;
+
+namespace PocketBeasts.CardHandling.Stacks
 {
     public class Stack
       {
@@ -68,6 +70,49 @@
             public void Add(ICard card)
             {
                   _cards.Add(card);
+            }
+
+            public override string ToString()
+            {
+                  StringBuilder sb = new StringBuilder();
+
+                  for (int i = 0; i < this.Count; i++)
+                  {
+                        sb.Append("+-------+ ");
+                  }
+                  sb.Append("\n");
+
+                  foreach (ICard card in this.Cards)
+                  {
+                        sb.Append(string.Format("|{0,7}| ", card.ManaCost));
+                  }
+                  sb.Append("\n");
+
+                  foreach (ICard card in this.Cards)
+                  {
+                        sb.Append(string.Format("|  {0,-5}| ", card.Id));
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < this.Count; i++)
+                  {
+                        sb.Append("|       | ");
+                  }
+                  sb.Append("\n");
+
+                  foreach (ICard card in this.Cards)
+                  {
+                        sb.Append(string.Format("|{0, -2} {1,4}| ", card.Attack, card.Health));
+                  }
+                  sb.Append("\n");
+
+                  for (int i = 0; i < this.Count; i++)
+                  {
+                        sb.Append("+-------+ ");
+                  }
+                  sb.Append("\n");
+
+                  return sb.ToString();
             }
       }
 }
