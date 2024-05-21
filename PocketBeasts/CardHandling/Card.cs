@@ -40,7 +40,7 @@ namespace PocketBeasts.CardHandling
 
             public virtual int Attack => card.Attack;
 
-            public int Health => card.Health;
+            public virtual int Health => card.Health;
 
             // Defined method of ICard interface
             public void Damage(int amount)
@@ -62,6 +62,21 @@ namespace PocketBeasts.CardHandling
 
             // Overriding Attack property to add additional attack value
             public override int Attack => base.Attack + additionalAttack;
+
+      }
+
+      // Class to modify Health attribute of card
+      public class HealthDecorator : CardDecorator
+      {
+            private readonly int additionalHealth;
+
+            public HealthDecorator(ICard card, int additionalHealth) : base(card)
+            {
+                  this.additionalHealth = additionalHealth;
+            }
+
+            // Overriding Attack property to add additional attack value
+            public override int Health => base.Health + additionalHealth;
 
       }
 
@@ -130,7 +145,6 @@ namespace PocketBeasts.CardHandling
 
             // Method implementation of Damage from ICard interface
             public void Damage(int amount)
-
             {
                   health -= amount;
             }
