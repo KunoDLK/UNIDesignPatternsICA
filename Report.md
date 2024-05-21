@@ -2,12 +2,11 @@
 
 ## Actions Undertaken from the Design Feedback
 
+The cards have been completely overhauled. there is a ICard interface. with a standard card implementation to match the existing functionally. however now there is decorators that can be added ontop of the cards to ajusts the cards strengs/weaknesses. this design matches the solution sugessed from my design feeback presentation
 
 
 
 ### Consolidation in PlayerCards Class
-
-
 
 The `PlayerCards` class now encapsulates all the cards a player possesses. This class maintains a list of stacks that reference the cards, providing the significant benefit of allowing all cards owned by a player to be quickly and easily searched within a unified container.
 
@@ -23,19 +22,13 @@ In the main startup class, an instance of the `Display` class is created and dep
 
 ### Code Reusability Enhancement
 
-
-
 To avoid code repetition, "shufflable" and "sortable" stacks are defined as types of stack with only the extra methods added to the class.
 
+## Single responsibility princable
 
+the class responsable for controlling the overall game has had teh code for displaying the game removed from it. on top of this the software has been reorginised to make the software more redable
 
-## Completion Assessment of the Solution
-
-
-
-### Status: Incomplete
-
-
+# compleness of the solution
 
 **Positive Aspects:**
 
@@ -46,6 +39,8 @@ The solution is streamlined and avoids code repetition, adhering to robust objec
 **Negative Aspects:**
 
 However, the number of design patterns implemented in the PocketBeast project is insufficient. Specifically, the factory pattern should have been employed in the card creation process. This would have mitigated the significant responsibility currently placed on the game setup.
+
+On top of this there as been no extra inhansments of the software. However if more time was avalibe i would have created WPF game display class along with some simple UI
 
 
 
