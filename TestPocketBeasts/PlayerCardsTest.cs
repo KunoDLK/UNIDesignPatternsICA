@@ -12,16 +12,16 @@ namespace TestPocketBeasts
       public class PlayerCardsTest
       {
 
-            public static readonly List<Card> StarterCards = new List<Card>
+            public static readonly List<ICard> StarterCards = new List<ICard>
             {
-                  new Card("BR", "Barn Rat", 1, 1, 1),
-                  new Card("SP", "Scampering Pup", 2, 2, 1),
-                  new Card("HB", "Hardshell Beetle", 2, 1, 2),
-                  new Card("VHC", "Vicious House Cat", 3, 3, 2),
-                  new Card("GD", "Guard Dog", 3, 2, 3),
-                  new Card("ARH", "All Round Hound", 3, 3, 3),
-                  new Card("MO", "Moor Owl", 4, 4, 2),
-                  new Card("HT", "Highland Tiger", 5, 4, 4)
+                  new StandardCard("BR", "Barn Rat", 1, 1, 1),
+                  new StandardCard("SP", "Scampering Pup", 2, 2, 1),
+                  new StandardCard("HB", "Hardshell Beetle", 2, 1, 2),
+                  new StandardCard("VHC", "Vicious House Cat", 3, 3, 2),
+                  new StandardCard("GD", "Guard Dog", 3, 2, 3),
+                  new StandardCard("ARH", "All Round Hound", 3, 3, 3),
+                  new StandardCard("MO", "Moor Owl", 4, 4, 2),
+                  new StandardCard("HT", "Highland Tiger", 5, 4, 4)
             };
 
             private PlayerCards CreateDeck()

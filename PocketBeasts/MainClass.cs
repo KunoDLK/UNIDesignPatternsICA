@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using PocketBeasts.CardHandling;
@@ -10,25 +11,25 @@ namespace PocketBeasts
 {
     class MainClass
       {
-            public static readonly Card[] StarterCards = new Card[]
+            public static readonly StandardCard[] StarterCards = new StandardCard[]
             {
-                  new Card("BR", "Barn Rat", 1, 1, 1),
-                  new Card("SP", "Scampering Pup", 2, 2, 1),
-                  new Card("HB", "Hardshell Beetle", 2, 1, 2),
-                  new Card("VHC", "Vicious House Cat", 3, 3, 2),
-                  new Card("GD", "Guard Dog", 3, 2, 3),
-                  new Card("ARH", "All Round Hound", 3, 3, 3),
-                  new Card("MO", "Moor Owl", 4, 4, 2),
-                  new Card("HT", "Highland Tiger", 5, 4, 4)
+                  new StandardCard("BR", "Barn Rat", 1, 1, 1),
+                  new StandardCard("SP", "Scampering Pup", 2, 2, 1),
+                  new StandardCard("HB", "Hardshell Beetle", 2, 1, 2),
+                  new StandardCard("VHC", "Vicious House Cat", 3, 3, 2),
+                  new StandardCard("GD", "Guard Dog", 3, 2, 3),
+                  new StandardCard("ARH", "All Round Hound", 3, 3, 3),
+                  new StandardCard("MO", "Moor Owl", 4, 4, 2),
+                  new StandardCard("HT", "Highland Tiger", 5, 4, 4)
             };
 
-            public static List<Card> GetStarterDeck()
+            public static List<ICard> GetStarterDeck()
             {
-                  List<Card> starterDeck = new List<Card>();
+                  List<ICard> starterDeck = new List<ICard>();
 
                   for (int i = 0; i < 2; i++)
                   {
-                        starterDeck.AddRange(StarterCards.Select(card => new Card(card)));
+                        starterDeck.AddRange(StarterCards.Select(card => new StandardCard(card)));
                   }
 
                   return starterDeck;
@@ -102,7 +103,7 @@ namespace PocketBeasts
                               }
 
                               // Cycle through cards in play to attack
-                              foreach (Card card in player.InPlay.Cards)
+                              foreach (ICard card in player.InPlay.Cards)
                               {
                                     display.OutputText(card.ToString());
 
@@ -137,7 +138,7 @@ namespace PocketBeasts
                                           }
                                           else // Beast, index is `target-2`
                                           {
-                                                Card targetCard = otherPlayer.InPlay.Cards[int.Parse(target) - 2];
+                                                ICard targetCard = otherPlayer.InPlay.Cards[int.Parse(target) - 2];
                                                 targetCard.Damage(card.Attack);
                                                 card.Damage(targetCard.Attack);
                                           }
@@ -150,9 +151,9 @@ namespace PocketBeasts
                               }
 
                               // Cycle through cards in play remove "dead" cards (health <= 0)
-                              List<Card> toRemove = player.InPlay.Cards.Where(card => card.Health <= 0).ToList();
+                              List<ICard> toRemove = player.InPlay.Cards.Where(card => card.Health <= 0).ToList();
 
-                              foreach (Card card in toRemove)
+                              foreach (ICard card in toRemove)
                               {
                                     player.Graveyard.Add(card);
                               }
@@ -161,7 +162,7 @@ namespace PocketBeasts
 
                               toRemove = otherPlayer.InPlay.Cards.Where(card => card.Health <= 0).ToList();
 
-                              foreach (Card card in toRemove)
+                              foreach (ICard card in toRemove)
                               {
                                     otherPlayer.Graveyard.Add(card);
                               }
@@ -169,8 +170,8 @@ namespace PocketBeasts
                               otherPlayer.InPlay.RemoveAll(toRemove);
 
                               // Play cards from hand
-                              toRemove = new List<Card>();
-                              foreach (Card card in player.Hand.Cards)
+                              toRemove = new List<ICard>();
+                              foreach (ICard card in player.Hand.Cards)
                               {
                                     if (card.ManaCost <= player.ManaAvailable)
                                     {

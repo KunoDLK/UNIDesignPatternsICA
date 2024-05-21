@@ -3,18 +3,18 @@
     public class Stack
       {
             private string _name;
-            private List<Card> cards;
+            private List<ICard> _cards;
 
-            public Stack(string name, List<Card> cards)
+            public Stack(string name, List<ICard> cards)
             {
                   Name = name;
-                  Cards = cards;
+                  _cards = cards;
             }
 
             public Stack(string name)
             {
                   Name = name;
-                  Cards = new List<Card>();
+                  _cards = new List<ICard>();
             }
 
             public string Name
@@ -25,25 +25,25 @@
 
             public int Count
             {
-                  get { return cards.Count; }
+                  get { return _cards.Count; }
             }
 
-            public List<Card> Cards
+            public List<ICard> Cards
             {
-                  get { return cards; }
-                  private set { cards = value; }
+                  get { return _cards; }
+                  private set { _cards = value; }
             }
 
-            public Card Draw()
+            public ICard Draw()
             {
-                  Card card = Cards[0];
-                  Cards.RemoveAt(0);
+                  ICard card = _cards[0];
+                  _cards.RemoveAt(0);
                   return card;
             }
 
-            public void Remove(Card card)
+            public void Remove(ICard card)
             {
-                  bool sucsesfull = cards.Remove(card);
+                  bool sucsesfull = _cards.Remove(card);
 
                   if (!sucsesfull)
                   {
@@ -51,19 +51,23 @@
                   }
             }
 
-            public void RemoveAll(List<Card> cards)
+            /// <summary>
+            /// Removed cards from this stack
+            /// </summary>
+            /// <param name="cards"> cards to remove</param>
+            public void RemoveAll(List<ICard> cards)
             {
-                  this.cards.RemoveAll(cards.Contains);
+                  this._cards.RemoveAll(cards.Contains);
             }
 
             public void RemoveAll()
             {
-                  this.Cards.Clear();
+                  this._cards.Clear();
             }
 
-            public void Add(Card card)
+            public void Add(ICard card)
             {
-                  Cards.Add(card);
+                  _cards.Add(card);
             }
       }
 }

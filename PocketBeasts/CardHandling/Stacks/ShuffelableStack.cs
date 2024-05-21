@@ -1,12 +1,12 @@
 ﻿namespace PocketBeasts.CardHandling.Stacks
 {
-    public class ShuffelableStack : Stack
+      public class ShuffelableStack : Stack
       {
             public ShuffelableStack(string name) : base(name)
             {
             }
 
-            public ShuffelableStack(string name, List<Card> cards) : base(name, cards)
+            public ShuffelableStack(string name, List<ICard> ICards) : base(name, ICards)
             {
             }
 
@@ -19,7 +19,7 @@
                   {
                         int j = random.Next(0, i + 1);
                         // Swap
-                        Card temp = Cards[i];
+                        ICard temp = Cards[i];
                         Cards[i] = Cards[j];
                         Cards[j] = temp;
                   }

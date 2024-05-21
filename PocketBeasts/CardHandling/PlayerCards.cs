@@ -24,10 +24,10 @@ namespace PocketBeasts.CardHandling
 {
     public class PlayerCards
       {
-            private List<Card> _cards;
+            private List<ICard> _cards;
             private Dictionary<string, Stack> _stacks;
 
-            public PlayerCards(List<Card> cards)
+            public PlayerCards(List<ICard> cards)
             {
                   Cards = cards;
                   _stacks = new Dictionary<string, Stack>();
@@ -38,7 +38,7 @@ namespace PocketBeasts.CardHandling
                   get { return _cards.Count; }
             }
 
-            public List<Card> Cards
+            public List<ICard> Cards
             {
                   get { return _cards; }
                   private set { _cards = value; }

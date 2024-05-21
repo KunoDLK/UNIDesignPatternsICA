@@ -103,6 +103,16 @@ namespace PocketBeasts.CardHandling
                   this.health = health;
             }
 
+            // Constructor to clone card properties
+            public StandardCard(StandardCard cardToClone)
+            {
+                  this.id = cardToClone.Id;
+                  this.name = cardToClone.Name;
+                  this.manaCost = cardToClone.ManaCost;
+                  this.attack = cardToClone.Attack;
+                  this.health = cardToClone.Health;
+            }
+
             // Properties implementation of ICard interface
             public string Id => id;
 

@@ -34,7 +34,7 @@ namespace PocketBeasts
 
         private PlayerCards _playerCards;
 
-        public Player(string name, List<Card> deck)
+        public Player(string name, List<ICard> deck)
         {
             this.name = name;
             manaAvailable = 0;
