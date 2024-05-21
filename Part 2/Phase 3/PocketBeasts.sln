@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketBeasts", "..\Phase 1&2\PocketBeasts\PocketBeasts.csproj", "{67385560-2386-4B04-8FFD-07B1E7EAFD74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPocketBeasts", "..\Phase 1&2\TestPocketBeasts\TestPocketBeasts.csproj", "{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67385560-2386-4B04-8FFD-07B1E7EAFD74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67385560-2386-4B04-8FFD-07B1E7EAFD74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67385560-2386-4B04-8FFD-07B1E7EAFD74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67385560-2386-4B04-8FFD-07B1E7EAFD74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6EC5016-CFD5-4B01-A800-6C30EBB73C32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75C0D89D-8C45-432A-8495-8E54F3DC129F}
+	EndGlobalSection
+EndGlobal
