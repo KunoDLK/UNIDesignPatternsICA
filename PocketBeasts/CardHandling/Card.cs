@@ -1,87 +1,127 @@
-﻿/*
- * This file is part of PocketBeasts.
- *
- * PocketBeasts is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * PocketBeasts is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
- */
+﻿using System;
 
+// Defining a namespace for handling card attributes
 namespace PocketBeasts.CardHandling
 {
-    public class Card : IComparable<Card>
-    {
-        private readonly string id;
-        private readonly string name;
-        private readonly int manaCost;
-        private readonly int attack;
-        private int health;
+      // ICard interface declares common properties and methods for cards
 
-        public Card(string id, string name, int manaCost, int attack, int health)
-        {
-            this.id = id;
-            this.name = name;
-            this.manaCost = manaCost;
-            this.attack = attack;
-            this.health = health;
-        }
+      public interface ICard
+      {
+            string Id { get; }
 
-        public Card(Card card)
-        {
-            id = card.id;
-            name = card.name;
-            manaCost = card.manaCost;
-            attack = card.attack;
-            health = card.health;
-        }
+            string Name { get; }
 
-        public string Id
-        {
-            get { return id; }
-        }
+            int ManaCost { get; }
 
-        public string Name
-        {
-            get { return name; }
-        }
+            int Attack { get; }
 
-        public int ManaCost
-        {
-            get { return manaCost; }
-        }
+            int Health { get; }
 
-        public int Attack
-        {
-            get { return attack; }
-        }
+            void Damage(int amount);
 
-        public int Health
-        {
-            get { return health; }
-        }
+      }
 
-        public void Damage(int amount)
-        {
-            health -= amount;
-        }
+      // CardDecorator abstract class for implementing decorator pattern on card attributes
+      public abstract class CardDecorator : ICard
+      {
+            protected ICard card;
 
-        public override string ToString()
-        {
-            return $"Card{{id='{Id}', name='{Name}', manaCost={ManaCost}, attack={Attack}, health={Health}}}";
-        }
+            // constructor to initialize card zttribute
+            protected CardDecorator(ICard card)
+            {
+                  this.card = card;
+            }
 
-        public int CompareTo(Card other)
-        {
-            return ManaCost.CompareTo(other.ManaCost);
-        }
-    }
+            // Defined properties of ICard interface
+            public string Id => card.Id;
+
+            public string Name => card.Name;
+
+            public virtual int ManaCost => card.ManaCost;
+
+            public virtual int Attack => card.Attack;
+
+            public int Health => card.Health;
+
+            // Defined method of ICard interface
+            public void Damage(int amount)
+            {
+                  card.Damage(amount);
+            }
+
+      }
+
+      // Class to modify Attack attribute of card
+      public class AttackDecorator : CardDecorator
+      {
+            private readonly int additionalAttack;
+
+            public AttackDecorator(ICard card, int additionalAttack) : base(card)
+            {
+                  this.additionalAttack = additionalAttack;
+            }
+
+            // Overriding Attack property to add additional attack value
+            public override int Attack => base.Attack + additionalAttack;
+
+      }
+
+      // Class to modify Mana Cost attribute of card
+      public class CostDecorator : CardDecorator
+      {
+
+            private readonly int additionalCost;
+
+            public CostDecorator(ICard card, int additionalCost) : base(card)
+            {
+                  this.additionalCost = additionalCost;
+            }
+
+            // Overriding ManaCost property to add additional cost value
+            public override int ManaCost => base.ManaCost + additionalCost;
+
+      }
+
+
+      // StandardCard class implements ICard interface
+
+      public class StandardCard : ICard
+      {
+            private readonly string id;
+            private readonly string name;
+            private readonly int manaCost;
+            private readonly int attack;
+            private int health;
+            // Constructor to initialize card properties
+
+            public StandardCard(string id, string name, int manaCost, int attack, int health)
+            {
+                  this.id = id;
+                  this.name = name;
+                  this.manaCost = manaCost;
+                  this.attack = attack;
+                  this.health = health;
+            }
+
+            // Properties implementation of ICard interface
+            public string Id => id;
+
+            public string Name => name;
+
+            public int ManaCost => manaCost;
+
+            public int Attack => attack;
+
+            public int Health => health;
+
+
+
+            // Method implementation of Damage from ICard interface
+
+            public void Damage(int amount)
+
+            {
+                  health -= amount;
+            }
+      }
 }
-
