@@ -18,7 +18,6 @@ namespace PocketBeasts.CardHandling
             int Health { get; }
 
             void Damage(int amount);
-
       }
 
       // CardDecorator abstract class for implementing decorator pattern on card attributes
@@ -124,10 +123,12 @@ namespace PocketBeasts.CardHandling
 
             public int Health => health;
 
-
+            public override string ToString()
+            {
+                  return $"{this.name} ({this.id}) Mana Cost/{this.manaCost} Attack/{this.attack} Health/{this.health}";
+            }
 
             // Method implementation of Damage from ICard interface
-
             public void Damage(int amount)
 
             {
