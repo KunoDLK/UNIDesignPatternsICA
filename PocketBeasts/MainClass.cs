@@ -190,7 +190,7 @@ namespace PocketBeasts
 
                               // Print final play state
                               display.Clear();
-                              display.OutputText(player.ToString());
+                              display.OutputPlayer(player);
                         }
                   }
 

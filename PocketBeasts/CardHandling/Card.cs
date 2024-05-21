@@ -125,7 +125,7 @@ namespace PocketBeasts.CardHandling
 
             public override string ToString()
             {
-                  return $"{this.name} ({this.id}) Mana Cost/{this.manaCost} Attack/{this.attack} Health/{this.health}";
+                  return $"Card{{id='{Id}', name='{Name}', manaCost={ManaCost}, attack={Attack}, health={Health}}}";
             }
 
             // Method implementation of Damage from ICard interface
